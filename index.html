@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>涙の箱</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+background:#f4f4f4;
+font-family:'Zen Kaku Gothic New',sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+width:320px;
+height:480px;
+background:white;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:30px;
+box-sizing:border-box;
+position:relative;
+}
+
+.dots{
+position:absolute;
+top:14px;
+display:flex;
+gap:6px;
+}
+
+.dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:#ddd;
+}
+
+.dot.active{
+background:black;
+}
+
+.text{
+font-size:20px;
+line-height:1.6;
+opacity:0;
+transform:translateY(10px);
+transition:.7s;
+}
+
+.text.show{
+opacity:1;
+transform:translateY(0);
+}
+
+.big{
+font-size:24px;
+font-weight:700;
+}
+
+.quote{
+font-size:18px;
+font-style:italic;
+}
+
+.book{
+display:none;
+flex-direction:column;
+align-items:center;
+}
+
+.book img{
+width:150px;
+border-radius:6px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.title{
+margin-top:10px;
+font-weight:700;
+}
+
+.author{
+font-size:13px;
+opacity:.6;
+}
+
+.button{
+margin-top:12px;
+padding:10px 18px;
+border-radius:20px;
+background:black;
+color:white;
+text-decoration:none;
+font-size:13px;
+font-weight:700;
+}
+
+.replay{
+margin-top:10px;
+font-size:13px;
+cursor:pointer;
+opacity:.7;
+}
+
+.replay:hover{
+opacity:1;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="dots" id="dots"></div>
+
+<div id="text" class="text"></div>
+
+<div id="book" class="book">
+
+<img src="https://images-na.ssl-images-amazon.com/images/P/456602489X.jpg">
+
+<div class="title">涙の箱</div>
+
+<div class="author">ハン・ガン</div>
+
+<a class="button"
+href="https://aged-trouser-c00.notion.site/31cf89d90a63800ca1edc643704c16f0"
+target="_blank">
+
+感想記事を読む
+
+</a>
+
+<div class="replay" onclick="restartReel()">
+
+▶ もう一度見る
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const scenes=[
+
+`<div class="big">よく泣く女の子がいた<br>村の人は彼女を<br>「涙のつぼ」と呼んだ</div>`,
+`ある日<br>涙を結晶にして売る<br>不思議なおじさんが現れる<br><br>「君の涙がほしい」`,
+`涙がコンプレックスだった少女は<br>おじさんと旅に出る<br><br>青い鳥と一緒に`,
+`涙は弱さなのか<br>それとも<br>心の奥から生まれる宝石なのか`,
+`人が涙を流すのは<br>感情を抱えきれなくなった<br>その瞬間なのかもしれない`,
+`<div class="big">ノーベル文学賞作家<br>ハン・ガンが描く<br><br>静かに心を洗う物語<br>『涙の箱』</div>`
+
+]
+
+let index=0
+
+const text=document.getElementById("text")
+const book=document.getElementById("book")
+const dotsContainer=document.getElementById("dots")
+
+let interval
+
+scenes.forEach(()=>{
+
+const dot=document.createElement("div")
+dot.classList.add("dot")
+dotsContainer.appendChild(dot)
+
+})
+
+const dots=document.querySelectorAll(".dot")
+
+function updateDots(){
+
+dots.forEach((d,i)=>{
+
+d.classList.toggle("active",i<=index)
+
+})
+
+}
+
+function showScene(){
+
+if(index < scenes.length){
+
+book.style.display="none"
+text.style.display="block"
+
+text.classList.remove("show")
+
+setTimeout(()=>{
+
+text.innerHTML=scenes[index]
+
+text.classList.add("show")
+
+updateDots()
+
+index++
+
+},200)
+
+}else{
+
+text.style.display="none"
+book.style.display="flex"
+
+clearInterval(interval)
+
+}
+
+}
+
+function restartReel(){
+
+index=0
+book.style.display="none"
+
+interval=setInterval(showScene,3000)
+
+showScene()
+
+}
+
+showScene()
+
+interval=setInterval(showScene,3000)
+
+</script>
+
+</body>
+</html>
